@@ -16,36 +16,36 @@ def getDB():
 @bp.route('/show')
 @login_required
 def show():
-    db = ?
+    db = get_db() #modificado OSCAR
     messages = db.execute(
         QUERY
     ).fetchall()
 
-    return render_template(TEMP, messages=messages)
+    return render_template('inbox/show.html', messages=messages) #modificado OSCAR
 
 
-@bp.route('/send', methods=('GET', 'POST'))
+@bp.route('/send', methods=('GET', 'POST')) #modificado OSCAR
 @login_required
 def send():
-    if request.method == 'POST':        
-        from_id = g.user['id']
-        to_username = ?
-        subject = ?
-        body = ?
+    if request.method == 'POST': #modificado OSCAR
+        from_id = g.user['id'] 
+        to_username = g.user['to'] #modificado OSCAR
+        subject = g.user['subject'] #modificado OSCAR
+        body = g.user['body'] #modificado OSCAR
 
-        db = ?
+        db = get_db() #modificado OSCAR
        
         if not to_username:
             flash('To field is required')
-            return render_template(TEMP)
+            return render_template('inbox/send.html') #modificado OSCAR
         
-        if ?:
+        if not subject:
             flash('Subject field is required')
-            return render_template('inbox/send.html')
+            return render_template('inbox/send.html') #modificado OSCAR
         
-        if ?:
+        if not body:
             flash('Body field is required')
-            return render_template(TEMP)    
+            return render_template('inbox/send.html') #modificado OSCAR
         
         error = None    
         userto = None 
@@ -60,7 +60,7 @@ def send():
         if error is not None:
             flash(error)
         else:
-            db = ?
+            db = get_db()
             db.execute(
                 QUERY,
                 (g.user['id'], userto['id'], subject, body)
