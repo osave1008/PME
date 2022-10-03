@@ -18,7 +18,7 @@ def getDB():
 def show():
     db = get_db() #modificado OSCAR
     messages = db.execute(
-        QUERY
+        'SELECT * FROM messages WHERE id=' + g.user['id'] + ';' #modificado OSCAR
     ).fetchall()
 
     return render_template('inbox/show.html', messages=messages) #modificado OSCAR
@@ -39,11 +39,11 @@ def send():
             flash('To field is required')
             return render_template('inbox/send.html') #modificado OSCAR
         
-        if not subject:
+        if not subject: #modificado OSCAR
             flash('Subject field is required')
             return render_template('inbox/send.html') #modificado OSCAR
         
-        if not body:
+        if not body: #modificado OSCAR
             flash('Body field is required')
             return render_template('inbox/send.html') #modificado OSCAR
         
@@ -51,7 +51,7 @@ def send():
         userto = None 
         
         userto = db.execute(
-            QUERY, (to_username,)
+            'SELECT * FROM user email =' + to_username + ';' #modificado OSCAR
         ).fetchone()
         
         if userto is None:
@@ -62,8 +62,7 @@ def send():
         else:
             db = get_db()
             db.execute(
-                QUERY,
-                (g.user['id'], userto['id'], subject, body)
+                'INSERT INTO message (from_id,to_id,subject,body) VALUES (' + g.user['id'] + ',' + userto['id'] + ',' + subject + ',' + body + ');' #modificado OSCAR
             )
             db.commit()
 
