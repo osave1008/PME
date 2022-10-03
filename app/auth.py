@@ -61,12 +61,12 @@ def register():
             if ?:
                 error = 'Username is required.'
                 flash(error)
-                return render_template(TEMP)
+                return render_template('auth/register.html')
             
             if not utils.isUsernameValid(username):
                 error = "Username should be alphanumeric plus '.','_','-'"
                 flash(error)
-                return render_template(TEMP)
+                return render_template('auth/register.html')
 
             if ?:
                 error = 'Password is required.'
