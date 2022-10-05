@@ -19,6 +19,7 @@ def show():
     db = get_db() #modificado OSCAR
     messages = db.execute(
         'SELECT * FROM messages WHERE id=' + g.user['id'] + ';' #modificado OSCAR
+        #Sugerencia Eduardo  'SELECT M.BODY, M.SUBJECT, M.CREATED, U.USERNAME FROM MESSAGES M INNER JOIN USER U ON U.ID = M.FROM_ID ORDER BY M.CREATED DESC'
     ).fetchall()
 
     return render_template('inbox/show.html', messages=messages) #modificado OSCAR
@@ -52,6 +53,7 @@ def send():
         
         userto = db.execute(
             'SELECT * FROM user email =' + to_username + ';' #modificado OSCAR
+            #Sugerencia Eduardo 'SELECT ID FROM USER WHERE USERNAME = ?', (to_username,)
         ).fetchone()
         
         if userto is None:
@@ -63,6 +65,8 @@ def send():
             db = get_db()
             db.execute(
                 'INSERT INTO message (from_id,to_id,subject,body) VALUES (' + g.user['id'] + ',' + userto['id'] + ',' + subject + ',' + body + ');' #modificado OSCAR
+                # sugerencia Eduardo 'INSERT INTO MESSAGES (FROM_ID, TO_ID, SUBJECT, BODY) VALUES (?,?,?,?)',
+                # (from_id, userto['id'], subject, body)
             )
             db.commit()
 
