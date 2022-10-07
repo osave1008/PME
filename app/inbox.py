@@ -18,7 +18,8 @@ def getDB():
 def show():
     db = get_db() #modificado OSCAR
     messages = db.execute(
-        'SELECT * FROM messages WHERE id=' + g.user['id'] + ';' #modificado OSCAR
+        "SELECT M.BODY, M.SUBJECT, M.CREATED, U.USERNAME FROM MESSAGES M INNER JOIN USER U ON U.ID = M.FROM_ID ORDER BY M.CREATED DESC"
+        #"SELECT * FROM messages WHERE id='" + str(g.user['id']) + "'" #modificado OSCAR
         #Sugerencia Eduardo  'SELECT M.BODY, M.SUBJECT, M.CREATED, U.USERNAME FROM MESSAGES M INNER JOIN USER U ON U.ID = M.FROM_ID ORDER BY M.CREATED DESC'
     ).fetchall()
 
