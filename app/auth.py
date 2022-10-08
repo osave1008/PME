@@ -147,7 +147,8 @@ def confirm():
 
             if not authid:
                 flash('Invalid')
-                return render_template('auth/forgot.html')
+                print("authid")
+                return render_template('auth/forgot.html')                
 
             if not password: #Eduardo
                 flash('Password required')
@@ -210,7 +211,7 @@ def change():
         
         return render_template('auth/forgot.html')
     except:
-        return render_template('auth/forgot.html')
+        return render_template('auth/change.html')
 
 
 @bp.route('/forgot', methods=('GET', 'POST')) #Eduardo
@@ -302,7 +303,8 @@ def login():
 
             flash(error)
 
-        return render_template('inbox/show.html') #Eduardo
+        #return render_template('inbox/show.html') #Eduardo
+        return render_template('auth/login.html') #Eduardo
     except:
         return render_template('auth/login.html') #Eduardo
         
