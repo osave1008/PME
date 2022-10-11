@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+
   <form method="post" action="{{ url_for('auth.confirm')}}" class="px-4">
     <label for="password">Type your new password</label>
     <input type="password" name="password" id="password" class="rounded-md mb-2" required>
