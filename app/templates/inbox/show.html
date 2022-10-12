@@ -5,7 +5,7 @@
   {% if g.user %}
     <div class="flex justify-end">
       <a class="action" href="{{ url_for('inbox.send') }}">New</a>
-      <a class="action" href="{{ url_for('inbox.getDB') }}">get DB</a>
+      <a class="action" href="{{ url_for('inbox.Export') }}">Export</a>
     </div>
   {% endif %}
 {% endblock %}

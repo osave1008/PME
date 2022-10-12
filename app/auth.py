@@ -169,12 +169,12 @@ def confirm():
 
             db = get_db() #Eduardo
             attempt = db.execute(
-                "SELECT * FROM forgotlink WHERE CHALLENGE = ? AND STATUS = ?", (authid, utils.F_ACTIVE) #Eduardo
+                "SELECT * FROM forgotlink WHERE CHALLENGE = ? AND STATE = ?", (authid, utils.F_ACTIVE) #Eduardo
             ).fetchone()
             print(attempt)
             if attempt is not None:
                 db.execute(
-                    "UPDATE forgotlink SET STATUS = ? WHERE ID = ?", (utils.F_INACTIVE, attempt['id'])#Eduardo
+                    "UPDATE forgotlink SET STATE = ? WHERE ID = ?", (utils.F_INACTIVE, attempt['id'])#Eduardo
                 )
                 salt = hex(random.getrandbits(128))[2:]
                 hashP = generate_password_hash(password + salt)   
@@ -204,9 +204,9 @@ def change():
             
             db = get_db() #Eduardo
             attempt = db.execute(
-                "SELECT * FROM forgotlink WHERE CHALLENGE = ? AND STATUS = ?", (number, utils.F_ACTIVE)
+                "SELECT * FROM forgotlink WHERE CHALLENGE = ? AND STATE = ?", (number, utils.F_ACTIVE)
             ).fetchone()
-            
+            print(attempt)
             if attempt is not None:                
                 return render_template('auth/change.html', number=number)
         

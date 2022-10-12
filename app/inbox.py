@@ -5,12 +5,31 @@ from flask import (
 from app.auth import login_required
 from app.db import get_db
 
+
 bp = Blueprint('inbox', __name__, url_prefix='/inbox')
 
+'''
 @bp.route("/getDB")
 @login_required
 def getDB():
     return send_file(current_app.config['DATABASE'], as_attachment=True)
+'''
+@bp.route('/Export')
+@login_required
+def Export():
+    db=get_db()
+    messages = db.execute(
+        "SELECT M.BODY, M.SUBJECT, M.CREATED, U.USERNAME FROM MESSAGE M INNER JOIN USER U ON U.ID = M.FROM_ID ORDER BY M.CREATED DESC"        
+    ).fetchall()
+    file=open("./app/Messages.txt", mode="w", encoding="utf-8")
+    string=""
+    string="USERNAME,SUBJECT,CREATED,BODY\n"
+    for i in messages:
+        string += i['USERNAME'] + "," + i['SUBJECT'] + "," + str(i['CREATED']) + "," + i['BODY'] + "\n"
+    
+    file.write(string)
+    file.close()
+    return send_file("../app/Messages.txt", as_attachment=True)
 
 
 @bp.route('/show')
